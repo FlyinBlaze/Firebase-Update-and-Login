@@ -33,14 +33,15 @@ export default function Login() {
       const userDoc = querySnapshot.docs[0]
       const userData = userDoc.data()
 
-      if (userData.password === password) {
+      // Remove whitespace from both input and stored password for robustness
+      if (userData.password.trim() === password.trim()) {
         // Store user info in localStorage for session management
         localStorage.setItem('user', JSON.stringify({
           id: userDoc.id,
           username: userData.username,
           name: userData.name
         }))
-        navigate('/')
+        window.location.reload(); // Force reload for instant redirect
       } else {
         setError('Invalid password')
       }
